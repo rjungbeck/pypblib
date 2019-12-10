@@ -12,6 +12,25 @@
 #if INTPTR_MAX == INT64_MAX
 #define _BitScanForward64 _BitScanForward
 #define __lzcnt64 __lzcnt
+#else
+
+static inline int _BitScanForward64(unsigned long *ret, unsigned long long x) {
+    _BitScanForward(ret, x & 0xffffffffUL);
+    if (*ret==0) {
+        _BitScanForward(ret, x >> 32);
+        *ret +=32;
+        }
+    }
+
+static inline __int64 __lzcnt64(unsigned long long x) {
+    unsigned __int64 ret;
+    ret=__lzcnt(x >> 32);
+
+    if (ret == 32) {
+        ret += __lzcnt(x & 0xffffffffUL);
+        }
+    return ret;
+    }
 #endif
 
 static inline int __builtin_ctz(uint32_t x) {
