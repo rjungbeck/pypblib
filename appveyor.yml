@@ -44,6 +44,7 @@ after_test:
 artifacts:
   # bdist_wheel puts your built wheel in the dist directory
   - path: dist\*
+  - name: wheel
 
 deploy:
   release: pypblib-v$(appveyor_build_version)
@@ -51,7 +52,7 @@ deploy:
   provider: GitHub
   auth_token:
     secure: 5bcqxRhhNMUnQw62ByBgL4+2tVQu2TZa0z4ZonD9Y68089PWDqsdXK5xaZ9d88mx # your encrypted token from GitHub
-  artifact: dist\*            # upload all wheels to release assets
+  artifact: wheel          # upload all wheels to release assets
   draft: false
   prerelease: false
   on:
