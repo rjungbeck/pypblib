@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{D20122ED-2127-43F2-8C8D-8A9555114B0E}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="auxvarmanager.cpp" />
+    <ClCompile Include="basicpbsolver\main.cpp" />
+    <ClCompile Include="basicpbsolver\SATSolverClauseDatabase.cpp" />
+    <ClCompile Include="clausedatabase.cpp" />
+    <ClCompile Include="encoder\adderencoding.cpp" />
+    <ClCompile Include="encoder\amo.cpp" />
+    <ClCompile Include="encoder\bdd.cpp" />
+    <ClCompile Include="encoder\BDD_Seq_Amo.cpp" />
+    <ClCompile Include="encoder\bimander_amo_encoding.cpp" />
+    <ClCompile Include="encoder\BinaryMerge.cpp" />
+    <ClCompile Include="encoder\binary_amo.cpp" />
+    <ClCompile Include="encoder\cardencoding.cpp" />
+    <ClCompile Include="encoder\commander_encoding.cpp" />
+    <ClCompile Include="encoder\Encoder.cpp" />
+    <ClCompile Include="encoder\k-product.cpp" />
+    <ClCompile Include="encoder\naive_amo_encoder.cpp" />
+    <ClCompile Include="encoder\SortingNetworks.cpp" />
+    <ClCompile Include="encoder\sorting_merging.cpp" />
+    <ClCompile Include="encoder\SWC.cpp" />
+    <ClCompile Include="formula.cpp" />
+    <ClCompile Include="helper.cpp" />
+    <ClCompile Include="incpbconstraint.cpp" />
+    <ClCompile Include="IncrementalData.cpp" />
+    <ClCompile Include="IncSimplePBConstraint.cpp" />
+    <ClCompile Include="pb2cnf.cpp" />
+    <ClCompile Include="PBConfig.cpp" />
+    <ClCompile Include="pbconstraint.cpp" />
+    <ClCompile Include="PBFuzzer.cpp" />
+    <ClCompile Include="pbo2maxsat.cpp" />
+    <ClCompile Include="PBParser.cpp" />
+    <ClCompile Include="preencoder.cpp" />
+    <ClCompile Include="removedexamples\fuzzer.cpp" />
+    <ClCompile Include="removedexamples\pbencoder.cpp" />
+    <ClCompile Include="SimplePBConstraint.cpp" />
+    <ClCompile Include="VectorClauseDatabase.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="auxvarmanager.h" />
+    <ClInclude Include="basicpbsolver\BasicSATSolver.h" />
+    <ClInclude Include="basicpbsolver\SATSolverClauseDatabase.h" />
+    <ClInclude Include="clausedatabase.h" />
+    <ClInclude Include="encoder\adderencoding.h" />
+    <ClInclude Include="encoder\amo.h" />
+    <ClInclude Include="encoder\bdd.h" />
+    <ClInclude Include="encoder\BDD_Seq_Amo.h" />
+    <ClInclude Include="encoder\bimander_amo_encoding.h" />
+    <ClInclude Include="encoder\BinaryMerge.h" />
+    <ClInclude Include="encoder\binary_amo.h" />
+    <ClInclude Include="encoder\cardencoding.h" />
+    <ClInclude Include="encoder\commander_encoding.h" />
+    <ClInclude Include="encoder\Encoder.h" />
+    <ClInclude Include="encoder\k-product.h" />
+    <ClInclude Include="encoder\naive_amo_encoder.h" />
+    <ClInclude Include="encoder\SortingNetworks.h" />
+    <ClInclude Include="encoder\sorting_merging.h" />
+    <ClInclude Include="encoder\SWC.h" />
+    <ClInclude Include="formula.h" />
+    <ClInclude Include="helper.h" />
+    <ClInclude Include="incpbconstraint.h" />
+    <ClInclude Include="IncrementalData.h" />
+    <ClInclude Include="IncSimplePBConstraint.h" />
+    <ClInclude Include="pb2cnf.h" />
+    <ClInclude Include="PBConfig.h" />
+    <ClInclude Include="pbconstraint.h" />
+    <ClInclude Include="PBFuzzer.h" />
+    <ClInclude Include="PBParser.h" />
+    <ClInclude Include="PBSatSolver.h" />
+    <ClInclude Include="preencoder.h" />
+    <ClInclude Include="SimplePBConstraint.h" />
+    <ClInclude Include="VectorClauseDatabase.h" />
+    <ClInclude Include="weightedlit.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
