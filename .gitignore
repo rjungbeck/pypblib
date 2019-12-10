@@ -1,5 +1,5 @@
 /build/
 /External/pblib/Debug/
-/pypblib/
+/pypblib/*.pyd
 /dist/
 /External/pblib/.vs/
