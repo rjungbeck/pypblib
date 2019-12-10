@@ -12,7 +12,10 @@ import glob
 import os.path
 import platform
 
-from pypblib import VERSION_STR
+try:
+    from pypblib import VERSION_STR
+except:
+    VERSION_STR="0.00.0000"
 
 # comma separated list of names
 AUTHORS = 'Carlos Ansótegui, Toni Pacheco, Josep Pon'
