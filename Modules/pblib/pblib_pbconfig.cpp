@@ -1,6 +1,3 @@
-/*
- * PyPB PBConfig bindings
- */
 #include <iostream>
 #include <sstream>
 #include <Python.h>
@@ -8,9 +5,7 @@
 #include "pblib_module.hpp"
 #include "pblib_pbconfig.hpp"
 
-#ifdef __cplusplus
 extern "C" {
-#endif
 
 
 //PyPBConfig base object methods
@@ -506,6 +501,4 @@ PyTypeObject PyPBConfig_Type = {
     PyPBConfig_New,                                /* tp_new */
 };
 
-#ifdef __cplusplus
 }
-#endif

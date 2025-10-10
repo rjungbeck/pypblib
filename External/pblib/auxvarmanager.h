@@ -1,5 +1,4 @@
-#ifndef AUXVARMANAGER_H
-#define AUXVARMANAGER_H
+#pragma once
 
 #include <algorithm>
 #include <vector>
@@ -40,5 +39,3 @@ public:
     void stopRememerReturnedVariables();
 	void resetAuxVarsTo(int32_t new_first_free_variable);
 };
-
-#endif // AUXVARMANAGER_H

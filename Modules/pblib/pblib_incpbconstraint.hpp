@@ -1,16 +1,9 @@
-/*
- * PyPB IncPBConstraint bindings
- */
-
-#ifndef _PBLIB_INCPBCONSTRAINT_HPP_
-#define _PBLIB_INCPBCONSTRAINT_HPP_
+#pragma once
 
 #include <Python.h>
 #include "../../external/pblib/incpbconstraint.h"
 
-#ifdef __cplusplus
 extern "C" {
-#endif
 
 // Name used as reference within Python
 #define PyIncPBConstraint_NAME "IncPBConstraint"
@@ -24,9 +17,4 @@ typedef struct {
 
 #define PyIncPBConstraint_Check(x)  ((x)->ob_type == &PyIncPBConstraint_Type)
 
-#ifdef __cplusplus
 }
-
-#endif
-
-#endif	// _PBLIB_INCPBCONSTRAINT_HPP_

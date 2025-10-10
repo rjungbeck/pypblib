@@ -1,6 +1,3 @@
-/*
- * PyPB PBLib::IncPBConstraint bindings
- */
 #include <sstream>
 #include <Python.h>
 
@@ -49,9 +46,7 @@ PyObject* PyIncPBConstraint_From_IncPBConstraint(const IncPBConstraint &i_constr
 }
 
 
-#ifdef __cplusplus
 extern "C" {
-#endif
 
 
 //PyIncPBConstraint base object methods
@@ -422,6 +417,4 @@ PyTypeObject PyIncPBConstraint_Type = {
     PyIncPBConstraint_New,                         /* tp_new */
 };
 
-#ifdef __cplusplus
 }
-#endif

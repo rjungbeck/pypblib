@@ -1,6 +1,3 @@
-/*
- * PyPB VectorClauseDatabase
- */
 #include <fstream>
 #include <sstream>
 #include <Python.h>
@@ -9,9 +6,7 @@
 #include "pblib_vectorclausedatabase.hpp"
 #include "pblib_pbconfig.hpp"
 
-#ifdef __cplusplus
 extern "C" {
-#endif
 
 
 //PyVectorClauseDatabase base objects methods
@@ -283,8 +278,4 @@ PyTypeObject PyVectorClauseDatabase_Type = {
     PyVectorClauseDatabase_New,                    /* tp_new */
 };
 
-#ifdef __cplusplus
 }
-#endif
-
-

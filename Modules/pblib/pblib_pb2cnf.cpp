@@ -1,6 +1,3 @@
-/*
- *  PYPB pb2cnf bindings
- */
 #include <sstream>
 #include <Python.h>
 
@@ -13,9 +10,7 @@
 #include "pblib_vectorclausedatabase.hpp"
 #include "aux_var_manager.hpp"
 
-#ifdef __cplusplus
 extern "C" {
-#endif
 
 
 //PyPb2cnf base object methods
@@ -362,10 +357,4 @@ PyTypeObject PyPb2cnf_Type = {
     PyPb2cnf_New,                                  /* tp_new */
 };
 
-#ifdef __cplusplus
 }
-#endif
-
-
-
-

@@ -1,7 +1,3 @@
-/*
- * PyPB PBLib::weightedlit bindings
- */
-
 #include <sstream>
 #include <Python.h>
 
@@ -32,9 +28,7 @@ PyObject* PyWeightedLit_From_WeightedLit(const PBLib::WeightedLit &wl)
 }
 
 
-#ifdef __cplusplus
 extern "C" {
-#endif
 
 //PyPBLibWeightedlit base Object methods
 //=====================================================================
@@ -208,6 +202,4 @@ PyTypeObject PyPBLibWeightedLit_Type = {
     PyWeightedLit_New,                             /* tp_new */
 };
 
-#ifdef __cplusplus
 }
-#endif
