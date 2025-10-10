@@ -244,7 +244,7 @@ int32_t ClauseDatabase::polarityClausify(const Formula& f, AuxVarManager& aux_va
 
 
 CountingClauseDatabase::CountingClauseDatabase(PBConfig config) : ClauseDatabase(config), number_of_clauses(0)
-
+{}
 
 void CountingClauseDatabase::addClauseIntern(vector< int32_t > const & clause)
 {

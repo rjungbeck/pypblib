@@ -2,7 +2,7 @@
 
 using namespace std;
 
-void Naive_amo_encoder::encode_intern(vector< Lit >& literals, ClauseDatabase& formula)
+void Naive_amo_encoder::encode_intern(std::vector< Lit >& literals, ClauseDatabase& formula)
 {
   for (size_t i = 0; i < literals.size(); ++i)
   {
