@@ -2,16 +2,13 @@
  * PyPB PBLib::statistics bindings
  */
 
-#ifndef _PBLIB_STATISTICS_HPP_
-#define _PBLIB_STATISTICS_HPP_
+#pragma once
 
 #include <Python.h>
 
-#include <PBConfig.h>
+#include "../../external/pblib/PBConfig.h"
 
-#ifdef __cplusplus
 extern "C" {
-#endif
 
 
 // Name used as reference within Python
@@ -26,8 +23,4 @@ typedef struct {
 
 #define PyPBLibStatistic_Check(x)  ((x)->ob_type == &PyPBLibStatistic_Type)
 
-#ifdef __cplusplus
 }
-#endif
-
-#endif  // _PBLIB_STATISTICS_HPP_

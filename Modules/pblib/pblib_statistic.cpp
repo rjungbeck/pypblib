@@ -1,7 +1,3 @@
-/*
- * PyPB PBLib::statistics bindings
- */
-
 #include <sstream>
 #include <Python.h>
 
@@ -9,9 +5,7 @@
 #include "pblib_statistic.hpp"
 
 
-#ifdef __cplusplus
 extern "C" {
-#endif
 
 // PyPBLibStatistic base object methods
 //=============================================================================
@@ -101,6 +95,4 @@ PyTypeObject PyPBLibStatistic_Type = {
 };
 
 
-#ifdef __cplusplus
 }
-#endif

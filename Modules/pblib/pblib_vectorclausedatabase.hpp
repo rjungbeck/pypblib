@@ -1,16 +1,9 @@
-/*
- * PyPB VectorClauseDatabase
- */
-
-#ifndef _PBLIB_VECTORCLAUSEDATABASE_HPP_
-#define _PBLIB_VECTORCLAUSEDATABASE_HPP_
+#pragma once
 
 #include <Python.h>
-#include <VectorClauseDatabase.h>
+#include "../../External/pblib/VectorClauseDatabase.h"
 
-#ifdef __cplusplus
 extern "C" {
-#endif
 
 //Name used as reference within Python
 #define PyVectorClauseDatabase_NAME "VectorClauseDatabase"
@@ -24,9 +17,4 @@ typedef struct {
 
 #define PyVectorClauseDatabase_Check(x) ((x)->ob_type == &PyVectorClauseDatabase_Type)
 
-#ifdef __cplusplus
 }
-
-#endif
-
-#endif  // _PBLIB_VECTORCLAUSEDATABASE_HPP_

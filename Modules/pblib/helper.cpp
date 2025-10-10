@@ -1,4 +1,3 @@
-#include <Python.h>
 #include "helper.hpp"
 
 
@@ -10,11 +9,11 @@ bool Get_Int_Vector_From_C_To_Python(std::vector<int> &out, PyObject *int_list) 
     }
 
     out.clear();
-    while(item = PyIter_Next(iter)) {       
+    while(item = PyIter_Next(iter)) {
         if(!PyLong_Check(item)){
             PyErr_SetString(PyExc_TypeError, "Literals must be integers");
             Py_DECREF(item);
-            Py_DECREF(iter);            
+            Py_DECREF(iter);
             return false;
         }
         out.push_back(PyLong_AsLong(item));
@@ -33,11 +32,11 @@ bool Get_Int64_Vector_From_C_To_Python(std::vector<int64_t> &out, PyObject *long
     }
 
     out.clear();
-    while(item = PyIter_Next(iter)) {       
+    while(item = PyIter_Next(iter)) {
         if(!PyLong_Check(item)){
             PyErr_SetString(PyExc_TypeError, "weights must be long");
             Py_DECREF(item);
-            Py_DECREF(iter);            
+            Py_DECREF(iter);
             return false;
         }
         out.push_back(PyLong_AsLong(item));
@@ -57,11 +56,11 @@ std::vector<int>* get_int_vector(PyObject *int_list) {
     }
 
     std::vector<int>* tmp = new std::vector<int>;
-    while(item = PyIter_Next(iter)) {       
+    while(item = PyIter_Next(iter)) {
         if(!PyLong_Check(item)){
             PyErr_SetString(PyExc_TypeError, "Literals must be integers");
             Py_DECREF(item);
-            Py_DECREF(iter);            
+            Py_DECREF(iter);
             return NULL;
         }
         tmp->push_back(PyLong_AsLong(item));
@@ -82,11 +81,11 @@ std::vector<long>* get_long_vector(PyObject *long_list) {
     }
 
     std::vector<long>* tmp = new std::vector<long>;
-    while(item = PyIter_Next(iter)) {       
+    while(item = PyIter_Next(iter)) {
         if(!PyLong_Check(item)){
             PyErr_SetString(PyExc_TypeError, "Literals must be long");
             Py_DECREF(item);
-            Py_DECREF(iter);            
+            Py_DECREF(iter);
             return NULL;
         }
         tmp->push_back(PyLong_AsLong(item));
@@ -96,5 +95,3 @@ std::vector<long>* get_long_vector(PyObject *long_list) {
     return tmp;
 }
 */
-
-

@@ -1,16 +1,10 @@
-/*
- * PyPB PBParser bindings
- */
-
 #include <sstream>
 #include <Python.h>
 
 #include "pblib_module.hpp"
 #include "pblib_pbparser.hpp"
 
-#ifdef __cplusplus
 extern "C" {
-#endif
 
 // PyPBLibPBParser base object methods
 //====================================================================
@@ -99,7 +93,4 @@ PyTypeObject PyPBLibPBParser_Type = {
     PyType_GenericNew,                             /* tp_new */
 };
 
-#ifdef __cplusplus
 }
-#endif
-

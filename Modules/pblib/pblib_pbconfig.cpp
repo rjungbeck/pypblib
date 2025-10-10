@@ -1,6 +1,3 @@
-/*
- * PyPB PBConfig bindings
- */
 #include <iostream>
 #include <sstream>
 #include <Python.h>
@@ -8,9 +5,7 @@
 #include "pblib_module.hpp"
 #include "pblib_pbconfig.hpp"
 
-#ifdef __cplusplus
 extern "C" {
-#endif
 
 
 //PyPBConfig base object methods
@@ -77,13 +72,13 @@ static PyObject* PyPBConfig_Repr(PyPBConfig* self) {
 }
 
 
-char* boolean_value_to_string(int b)
+const char* boolean_value_to_string(int b)
 {
     if(b) return "TRUE";
     return "FALSE";
 }
 
-char* pb_encoder_to_String(int pb_e)
+const char* pb_encoder_to_String(int pb_e)
 {
     switch (pb_e) {
         case 0: return "BEST";
@@ -95,7 +90,7 @@ char* pb_encoder_to_String(int pb_e)
     }
 }
 
-char* amk_encoder_to_string(int amk_e)
+const char* amk_encoder_to_string(int amk_e)
 {
     switch(amk_e) {
         case 0: return "BEST";
@@ -104,7 +99,7 @@ char* amk_encoder_to_string(int amk_e)
     }
 }
 
-char* amo_encoder_to_string(int amo_e)
+const char* amo_encoder_to_string(int amo_e)
 {
     switch(amo_e) {
         case 0: return "BEST";
@@ -118,7 +113,7 @@ char* amo_encoder_to_string(int amo_e)
     }
 }
 
-char* bimander_m_to_string(int bim_m)
+const char* bimander_m_to_string(int bim_m)
 {
     switch(bim_m) {
         case 0: return "N_HALF";
@@ -506,7 +501,4 @@ PyTypeObject PyPBConfig_Type = {
     PyPBConfig_New,                                /* tp_new */
 };
 
-#ifdef __cplusplus
 }
-#endif
-

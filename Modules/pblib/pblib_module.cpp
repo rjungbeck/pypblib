@@ -1,9 +1,5 @@
-/*
- * PyPB module initialization.
- */
-
 #include <Python.h>
-#include <pbconstraint.h>
+#include "../../external/pblib/pbconstraint.h"
 
 #include "pblib_module.hpp"
 #include "pblib_statistic.hpp"

@@ -16,25 +16,26 @@ private:
   std::vector<int32_t> tmp_clause_wc;
   std::unordered_map<int32_t,Lit> history;
   std::vector<int32_t> conditionals;
-  
+
   ClauseDatabase(const ClauseDatabase& other) = delete;
   virtual bool operator==(const ClauseDatabase& other) const;
-  
+
   virtual int32_t polarityClausify(Formula const & f, AuxVarManager & aux_vars);
-  
+
 protected:
   std::vector<int32_t> clause;
   PBConfig config;
   virtual void addClauseIntern(std::vector< int32_t > const & clause) = 0;
-  
-  
+
+
 public:
   void addConditional(int32_t lit);
   void addConditionals(std::vector<int32_t> lits);
   std::vector<int32_t> & getConditionals();
 
   ClauseDatabase(PBConfig config);
-  virtual ~ClauseDatabase();
+  ClauseDatabase() = default;
+  virtual ~ClauseDatabase() = default;
 
   // add a clause to database
   virtual void addClause(std::vector<int32_t> const & clause);
@@ -52,7 +53,7 @@ public:
   bool isSetToUnsat();
   void deleteIsSetToUnsatFlag();
   void addClauses(std::vector<std::vector<int32_t> > const & clauses);
-  
+
   template < typename First >
   void addClause ( First first )
   {
@@ -63,7 +64,7 @@ public:
       addClause(tmp_clause_wc);
       tmp_clause_wc.clear();
   }
-  
+
   template < typename First, typename ... Liste >
   void addClause ( First first, Liste ... rest )
   {
@@ -77,14 +78,13 @@ class CountingClauseDatabase : public ClauseDatabase
 {
   private:
     int64_t number_of_clauses;
-    
+
     virtual void addClauseIntern(std::vector< int32_t > const & clause);
   public:
     CountingClauseDatabase(PBConfig config);
-    
+
     int64_t getNumberOfClauses();
     void clearDataBase();
 };
 
 #endif // CLAUSEDATABASE_H
-

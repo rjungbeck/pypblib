@@ -8,9 +8,7 @@
 #include "pblib_module.hpp"
 #include "aux_var_manager.hpp"
 
-#ifdef __cplusplus
 extern "C" {
-#endif
 
 
 //PyAuxVarManager base object methods
@@ -177,7 +175,4 @@ PyTypeObject PyAuxVarManager_Type = {
 };
 
 
-#ifdef __cplusplus
 }
-#endif
-

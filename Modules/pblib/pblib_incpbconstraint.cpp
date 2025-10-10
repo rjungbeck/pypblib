@@ -1,6 +1,3 @@
-/*
- * PyPB PBLib::IncPBConstraint bindings
- */
 #include <sstream>
 #include <Python.h>
 
@@ -15,7 +12,7 @@
 // PyIncPBConstraint Utility methods
 //=====================================================================
 
-inline PyObject* PyIncPBConstraint_One_Bound_From_Raw_Data(PyTypeObject* type,
+PyObject* PyIncPBConstraint_One_Bound_From_Raw_Data(PyTypeObject* type,
                                 const std::vector<PBLib::WeightedLit> &wlits,
                                 PBLib::Comparator comp, long bound)
 {
@@ -27,7 +24,7 @@ inline PyObject* PyIncPBConstraint_One_Bound_From_Raw_Data(PyTypeObject* type,
 	return (PyObject *) self;
 }
 
-inline PyObject* PyIncPBConstraint_Two_Bound_From_Raw_Data(PyTypeObject* type,
+PyObject* PyIncPBConstraint_Two_Bound_From_Raw_Data(PyTypeObject* type,
                                 const std::vector<PBLib::WeightedLit> &wlits,
                                 PBLib::Comparator comp, long bound, long bound2)
 {
@@ -49,9 +46,7 @@ PyObject* PyIncPBConstraint_From_IncPBConstraint(const IncPBConstraint &i_constr
 }
 
 
-#ifdef __cplusplus
 extern "C" {
-#endif
 
 
 //PyIncPBConstraint base object methods
@@ -422,16 +417,4 @@ PyTypeObject PyIncPBConstraint_Type = {
     PyIncPBConstraint_New,                         /* tp_new */
 };
 
-#ifdef __cplusplus
 }
-#endif
-
-
-
-
-
-
-
-
-
-
