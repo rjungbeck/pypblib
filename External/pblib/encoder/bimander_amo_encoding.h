@@ -19,20 +19,21 @@ private:
     std::vector<Lit> _literals;
     std::vector<std::vector<Lit> > groups;
     std::vector<Lit> bits;
-    int nBits;
-    int two_pow_nbits;
-    int k;
-    int m;
+    size_t nBits;
+    size_t two_pow_nbits;
+    size_t k;
+    size_t m;
     Naive_amo_encoder naive_amo_encoder;
 
 
-    void encode_intern( std::vector<Lit>& literals, ClauseDatabase & formula, AuxVarManager & auxvars);    
+    void encode_intern( std::vector<Lit>& literals, ClauseDatabase & formula, AuxVarManager & auxvars);
 public:
     void encode(const SimplePBConstraint& pbconstraint, ClauseDatabase & formula, AuxVarManager & auxvars);
     int64_t encodingValue(const SimplePBConstraint& pbconstraint);
 
     Bimander_amo_encoding(PBConfig & config);
-    virtual ~Bimander_amo_encoding();
+    Bimander_amo_encoding() = default;
+    virtual ~Bimander_amo_encoding() = default;
 };
 
 #endif // BINARY_AMO_H

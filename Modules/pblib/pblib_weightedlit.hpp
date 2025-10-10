@@ -6,7 +6,7 @@
 #define _PBLIB_WEIGHTEDLIT_HPP_
 
 #include <Python.h>
-#include <weightedlit.h>
+#include "../../external/pblib/weightedlit.h"
 
 #ifdef __cplusplus
 extern "C" {

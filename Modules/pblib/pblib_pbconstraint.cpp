@@ -12,7 +12,7 @@
 // PyPBConstraint Utility methods
 //=====================================================================
 
-inline PyObject* PyPBConstraint_One_Bound_From_Raw_Data(PyTypeObject* type,
+PyObject* PyPBConstraint_One_Bound_From_Raw_Data(PyTypeObject* type,
                                 const std::vector<PBLib::WeightedLit> &wlits,
                                 PBLib::Comparator comp, long bound)
 {
@@ -24,7 +24,7 @@ inline PyObject* PyPBConstraint_One_Bound_From_Raw_Data(PyTypeObject* type,
 	return (PyObject *) self;
 }
 
-inline PyObject* PyPBConstraint_Two_Bound_From_Raw_Data(PyTypeObject* type,
+PyObject* PyPBConstraint_Two_Bound_From_Raw_Data(PyTypeObject* type,
                                 const std::vector<PBLib::WeightedLit> &wlits,
                                 PBLib::Comparator comp, long bound, long bound2)
 {

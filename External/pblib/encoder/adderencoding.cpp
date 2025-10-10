@@ -85,52 +85,47 @@ AdderEncoding::AdderIncData::AdderIncData(vector< int32_t > result) : result(res
 
 }
 
-void AdderEncoding::AdderIncData::encodeNewGeq(int64_t newGeq, ClauseDatabase& formula, AuxVarManager& auxVars, vector<int32_t> conditionals)
+void AdderEncoding::AdderIncData::encodeNewGeq(int64_t newGeq, ClauseDatabase& formula, AuxVarManager&, vector<int32_t> conditionals)
 {
   formula.addConditionals(conditionals);
-  
+
   numToBits ( kBits, result.size(), newGeq );
   assert(kBits.size() == result.size());
-  for (int i = 0; i < kBits.size(); ++i) // negate everythink
+  for (size_t i = 0; i < kBits.size(); ++i) // negate everythink
   {
     kBits[i] = kBits[i] == 0 ? 1 : 0;
     result[i] = -result[i];
   }
   lessThanOrEqual ( result, kBits , formula);
-  for (int i = 0; i < kBits.size(); ++i)
+  for (size_t i = 0; i < kBits.size(); ++i)
   {
     result[i] = -result[i]; // reset result vector
   }
-  
-  for (int i = 0; i < conditionals.size(); ++i)
+
+  for (size_t i = 0; i < conditionals.size(); ++i)
       formula.getConditionals().pop_back();
 }
 
-void AdderEncoding::AdderIncData::encodeNewLeq(int64_t newLeq, ClauseDatabase& formula, AuxVarManager& auxVars, vector<int32_t> conditionals)
+void AdderEncoding::AdderIncData::encodeNewLeq(int64_t newLeq, ClauseDatabase& formula, AuxVarManager&, vector<int32_t> conditionals)
 {
   formula.addConditionals(conditionals);
-  
+
   numToBits ( kBits, result.size(), newLeq );
   assert(kBits.size() == result.size());
   lessThanOrEqual ( result, kBits , formula);
-  
-  for (int i = 0; i < conditionals.size(); ++i)
+
+  for (size_t i = 0; i < conditionals.size(); ++i)
       formula.getConditionals().pop_back();
-}
-
-AdderEncoding::AdderIncData::~AdderIncData()
-{
-
 }
 
 
 void AdderEncoding::FA_extra ( int32_t xc, int32_t xs, int32_t a, int32_t b, int32_t c )
 {
-  
+
   formula->addClause(-xc, -xs, a);
   formula->addClause(-xc, -xs, b);
   formula->addClause(-xc, -xs, c);
-  
+
   formula->addClause(xc, xs, -a);
   formula->addClause(xc, xs, -b);
   formula->addClause(xc, xs, -c);
@@ -139,7 +134,7 @@ void AdderEncoding::FA_extra ( int32_t xc, int32_t xs, int32_t a, int32_t b, int
 
 
 int32_t AdderEncoding::FA_carry ( int32_t a, int32_t b, int32_t c ) {
-  
+
   int32_t x = auxVars->getVariable();
 
   formula->addClause( b,c,-x,0 );
@@ -171,7 +166,7 @@ int32_t AdderEncoding::FA_sum ( int32_t a, int32_t b, int32_t c )
 }
 
 int32_t AdderEncoding::HA_carry ( int32_t a, int32_t b ) // a AND b
-{  
+{
   int32_t x = auxVars->getVariable();
 
   formula->addClause( a, -x, 0 );
@@ -197,7 +192,7 @@ int32_t AdderEncoding::HA_sum ( int32_t a, int32_t b ) // a XOR b
 void AdderEncoding::adderTree ( vector< queue< int32_t > > & buckets, vector< int32_t >& result ) {
   int32_t x,y,z;
 
-  for ( int i = 0; i < buckets.size(); i++ ) {
+  for ( size_t i = 0; i < buckets.size(); i++ ) {
       if ( buckets[i].size() == 0 )
 	  continue;
 
@@ -243,15 +238,15 @@ void AdderEncoding::lessThanOrEqual ( vector< int32_t > & xs, vector< int32_t > 
   assert ( xs.size() == ys.size() );
   vector<Lit> clause;
   bool skip;
-  for ( int i = 0; i < xs.size(); ++i ) {
+  for ( size_t i = 0; i < xs.size(); ++i ) {
       if ( ys[i] == 1 || xs[i] == 0 )
 	  continue;
-      
+
       clause.clear();
 
       skip = false;
 
-      for ( int j = i + 1; j < xs.size(); ++j )
+      for ( size_t j = i + 1; j < xs.size(); ++j )
       {
 	  if ( ys[j] == 1 )
 	  {
@@ -289,7 +284,7 @@ void AdderEncoding::lessThanOrEqual ( vector< int32_t > & xs, vector< int32_t > 
 void AdderEncoding::numToBits ( vector<int32_t> & bits, int64_t n, int64_t number ) {
   bits.clear();
 
-  
+
   for ( int64_t i = n - 1; i >= 0; --i ) {
       int64_t tmp = ((int64_t)1) << i;
       if ( number < tmp ) {
@@ -308,8 +303,8 @@ void AdderEncoding::numToBits ( vector<int32_t> & bits, int64_t n, int64_t numbe
 // result and kBits must have the same size
 void AdderEncoding::resultIsEqual ( vector< int32_t > & result, vector< int32_t > & kBits ) {
   assert (kBits.size() == result.size());
-  
-  for (int i = 0; i < result.size(); ++i) {
+
+  for (size_t i = 0; i < result.size(); ++i) {
     if (kBits[i] == 1) {
       if (result[i] == 0) {
 	formula->addUnsat();
@@ -322,16 +317,16 @@ void AdderEncoding::resultIsEqual ( vector< int32_t > & result, vector< int32_t 
       assert (kBits[i] == 0);
       if (result[i] != 0) // if result[i] == 0 -> -0 = true -> we do not have to add this
 	formula->addClause(-result[i],0);
-	
+
     }
   }
 }
-    
+
 void AdderEncoding::encode(const shared_ptr< IncSimplePBConstraint >& pbconstraint, ClauseDatabase& formula, AuxVarManager& auxvars)
 {
   if (config->print_used_encodings)
     cout << "c encode incremental with adder" << endl;
-  
+
   isInc = true;
   encode(*pbconstraint, formula, auxvars);
   pbconstraint->setIncrementalData(make_shared<AdderIncData>(result));
@@ -351,21 +346,18 @@ int PBLib::ld64(const uint64_t x)
 //       ldretutn = i + 1;
 //     }
 //   }
-//   
+//
 //   return ldretutn;
 }
 
 void AdderEncoding::encode ( const SimplePBConstraint& pbconstraint, ClauseDatabase & formula, AuxVarManager & auxvars ) {
-	
-
-	
     if (config->print_used_encodings && !isInc)
       cout << "c encode with adder" << endl;
 
     this->formula = &formula;
     this->auxVars = &auxvars;
-  
-	
+
+
     vector<queue<int32_t> > buckets;
     result.clear();
     vector<int32_t> rhs;
@@ -376,7 +368,7 @@ void AdderEncoding::encode ( const SimplePBConstraint& pbconstraint, ClauseDatab
     for ( int iBit = 0; iBit < nb; ++iBit ) {
         buckets.push_back ( queue<int32_t>() );
         result.push_back ( 0 );
-        for ( int iVar = 0; iVar < pbconstraint.getWeightedLiterals().size(); ++iVar ) {
+        for ( size_t iVar = 0; iVar < pbconstraint.getWeightedLiterals().size(); ++iVar ) {
             if ( ( ( ((int64_t)1) << iBit ) & pbconstraint.getWeightedLiterals()[iVar].weight ) != 0 )
                 buckets.back().push ( pbconstraint.getWeightedLiterals()[iVar].lit );
             }
@@ -386,11 +378,11 @@ void AdderEncoding::encode ( const SimplePBConstraint& pbconstraint, ClauseDatab
     vector<int32_t> kBits;
 
     adderTree ( buckets, result );
-	
+
     numToBits ( kBits, buckets.size(), pbconstraint.getLeq() );
-    
+
     formula.addConditionals(pbconstraint.getConditionals());
-	
+
     if (pbconstraint.getComparator() == PBLib::BOTH)
     {
       if (!isInc && pbconstraint.getLeq() == pbconstraint.getGeq())
@@ -402,13 +394,13 @@ void AdderEncoding::encode ( const SimplePBConstraint& pbconstraint, ClauseDatab
 	lessThanOrEqual ( result, kBits , formula);
 	numToBits ( kBits, buckets.size(), pbconstraint.getGeq() );
 	assert(kBits.size() == result.size());
-	for (int i = 0; i < kBits.size(); ++i) // negate everythink
+	for (size_t i = 0; i < kBits.size(); ++i) // negate everythink
 	{
 	  kBits[i] = kBits[i] == 0 ? 1 : 0;
 	  result[i] = result[i] == 0 ? true_lit : -result[i];
 	}
 	lessThanOrEqual ( result, kBits , formula);
-	for (int i = 0; i < kBits.size(); ++i) // negate everythink
+	for (size_t i = 0; i < kBits.size(); ++i) // negate everythink
 	{
 	  result[i] = -result[i]; // reset result vector
 	}
@@ -418,41 +410,19 @@ void AdderEncoding::encode ( const SimplePBConstraint& pbconstraint, ClauseDatab
     {
       lessThanOrEqual ( result, kBits , formula);
     }
-    
-    for (int i = 0; i < pbconstraint.getConditionals().size(); ++i)
+
+    for (size_t i = 0; i < pbconstraint.getConditionals().size(); ++i)
       formula.getConditionals().pop_back();
-    
+
 }
 
 
-int64_t AdderEncoding::encodingValue(const shared_ptr< IncSimplePBConstraint >& pbconstraint)
+int64_t AdderEncoding::encodingValue(const shared_ptr< IncSimplePBConstraint >&)
 {
   return config->MAX_CLAUSES_PER_CONSTRAINT - 1; // since adder encoding is not GAC we use this as fallback only
 }
 
-int64_t AdderEncoding::encodingValue(const SimplePBConstraint& pbconstraint)
+int64_t AdderEncoding::encodingValue(const SimplePBConstraint&)
 {
   return config->MAX_CLAUSES_PER_CONSTRAINT - 1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    

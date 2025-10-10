@@ -43,7 +43,7 @@ IncPBConstraint::IncPBConstraint(vector<WeightedLit> const & literals, Comparato
   {
     init_leq = leq = bound;
   }
-  else 
+  else
   {
     assert(comparator == GEQ);
     init_geq = geq = bound;
@@ -90,12 +90,12 @@ void IncPBConstraint::encodeNewGeq(int64_t newGeq, ClauseDatabase& formula, AuxV
     return;
 
   geq = newGeq;
-  
+
   if (isDualEncoded)
   {
     assert(comparator == BOTH);
     assert(geq_inc_simple_pb_constraint->getComparator() == LEQ);
-    geq_inc_simple_pb_constraint->encodeNewLeq(-geq, formula, auxVars); // we encode GEQ as LEQ internaly 
+    geq_inc_simple_pb_constraint->encodeNewLeq(-geq, formula, auxVars); // we encode GEQ as LEQ internaly
   }
   else
   {
@@ -104,7 +104,7 @@ void IncPBConstraint::encodeNewGeq(int64_t newGeq, ClauseDatabase& formula, AuxV
     else
     {
       assert(comparator == GEQ);
-      inc_simple_pb_constraint->encodeNewLeq(-geq, formula, auxVars); // we encode GEQ as LEQ internaly 
+      inc_simple_pb_constraint->encodeNewLeq(-geq, formula, auxVars); // we encode GEQ as LEQ internaly
     }
   }
 }
@@ -115,7 +115,7 @@ void IncPBConstraint::encodeNewLeq(int64_t newLeq, ClauseDatabase& formula, AuxV
     return;
 
   leq = newLeq;
-  
+
   if (isDualEncoded)
   {
     assert(comparator == BOTH);
@@ -128,14 +128,7 @@ void IncPBConstraint::encodeNewLeq(int64_t newLeq, ClauseDatabase& formula, AuxV
   }
 }
 
-
-
-IncPBConstraint::~IncPBConstraint()
-{
-
-}
-
-bool IncPBConstraint::operator==(const IncPBConstraint& other) const
+bool IncPBConstraint::operator==(const IncPBConstraint&) const
 {
   return false;
 }
@@ -160,71 +153,71 @@ shared_ptr< IncSimplePBConstraint > IncPBConstraint::getIncSimplePBConstraint()
 
 void IncPBConstraint::print() const
 {
-  bool stderr = false;
+  bool err = false;
 
   if (getN() == 0)
   {
-    if (stderr)
+    if (err)
       cerr << "TRUE" << endl;
     else
       cout << "TRUE" << endl;
     return;
   }
-  
+
   if (conditionals.size() > 0)
   {
-      if (stderr)
+      if (err)
 	cerr << "[";
       else
 	cout << "[";
-      
-    for (int i = 0; i < conditionals.size(); ++i)
+
+    for (size_t i = 0; i < conditionals.size(); ++i)
     {
-      if (stderr)
+      if (err)
 	cerr << conditionals[i] << ",";
       else
 	cout << conditionals[i] << ",";
     }
-    
-    if (stderr)
+
+    if (err)
 	cerr << "] => ";
       else
 	cout << "] => ";
   }
-  
+
   for (int i = 0; i < getN(); ++i)
   {
     if (i < getN() - 1)
     {
       if (weighted_literals[i].lit < 0)
-	if (stderr) cerr << weighted_literals[i].weight << " -x" << -weighted_literals[i].lit << " +";
+	if (err) cerr << weighted_literals[i].weight << " -x" << -weighted_literals[i].lit << " +";
 	else  cout << weighted_literals[i].weight << " -x" << -weighted_literals[i].lit << " +";
       else
-	if (stderr) cerr << weighted_literals[i].weight << " x" << weighted_literals[i].lit << " +";
+	if (err) cerr << weighted_literals[i].weight << " x" << weighted_literals[i].lit << " +";
 	else cout << weighted_literals[i].weight << " x" << weighted_literals[i].lit << " +";
     }
     else
     {
       if (weighted_literals[getN() - 1].lit < 0)
-	if (stderr) cerr << weighted_literals[getN() - 1].weight << " -x" << -weighted_literals[getN() - 1].lit;
+	if (err) cerr << weighted_literals[getN() - 1].weight << " -x" << -weighted_literals[getN() - 1].lit;
 	else cout << weighted_literals[getN() - 1].weight << " -x" << -weighted_literals[getN() - 1].lit;
       else
-	if(stderr) cerr << weighted_literals[getN() - 1].weight << " x" << weighted_literals[getN() - 1].lit;
+	if(err) cerr << weighted_literals[getN() - 1].weight << " x" << weighted_literals[getN() - 1].lit;
 	else cout << weighted_literals[getN() - 1].weight << " x" << weighted_literals[getN() - 1].lit;
     }
   }
-  
-  
+
+
   if (comparator == LEQ)
-    if(stderr) cerr << " =< " << leq << endl;
+    if(err) cerr << " =< " << leq << endl;
     else cout << " =< " << leq << endl;
   else if (comparator == GEQ)
-    if(stderr) cerr << " >= " << geq << endl;
+    if(err) cerr << " >= " << geq << endl;
     else cout << " >= " << geq << endl;
   else
-    if(stderr) cerr << " >= " << geq << " =< " << leq << endl;
+    if(err) cerr << " >= " << geq << " =< " << leq << endl;
     else cout << " >= " << geq << " =< " << leq << endl;
-  
+
 }
 
 void IncPBConstraint::addConditional(int32_t lit)

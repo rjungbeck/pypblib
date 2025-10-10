@@ -6,7 +6,7 @@ using namespace std;
 
 void ClauseDatabase::addClauses(vector< vector< int32_t > > const & clauses)
 {
-  for (int i = 0; i < clauses.size(); ++i)
+  for (size_t i = 0; i < clauses.size(); ++i)
     addClause(clauses[i]);
 }
 
@@ -68,7 +68,7 @@ void ClauseDatabase::addClause(const vector< int32_t >& clause)
 	  for (int32_t lit : conditionals)
 		copy.push_back(-lit);
 	}
-	
+
     copy.resize( distance(copy.begin(),unique (copy.begin(), copy.end()) ) );
     addClauseIntern(copy);
   }
@@ -76,10 +76,10 @@ void ClauseDatabase::addClause(const vector< int32_t >& clause)
   {
 	  if (conditionals.size() > 0)
 	  {
-			vector<int32_t> copy = clause;		  
+			vector<int32_t> copy = clause;
 			for (int32_t lit : conditionals)
 			  copy.push_back(-lit);
-			
+
 			addClauseIntern(copy);
 	  }
 	  else
@@ -94,11 +94,6 @@ ClauseDatabase::ClauseDatabase(PBConfig config) : config(config)
   FormulaClass::config = config;
 }
 
-ClauseDatabase::~ClauseDatabase()
-{
-
-}
-
 
 bool ClauseDatabase::operator==(const ClauseDatabase& other) const
 {
@@ -110,9 +105,9 @@ int32_t ClauseDatabase::polarityClausify(const Formula& f, AuxVarManager& aux_va
 {
     Lit result = 0;
     std::unordered_map<int32_t,Lit>::const_iterator it;
-    
+
     assert (f != _undef_);
-    
+
     if (isAtom(f))
     {
 	result = getLit(f);
@@ -121,14 +116,14 @@ int32_t ClauseDatabase::polarityClausify(const Formula& f, AuxVarManager& aux_va
     }
     else if ((it = history.find(f->data)) != history.end())
     {
-      result = it->second;      
+      result = it->second;
       assert(result != 0);
       return result;
     }
     else
     {
       assert (!isAtom(f));
-      
+
     // TODO is this sound?
 //       if ((it = history.find((~f)->data)) != history.end())
 //       {
@@ -137,7 +132,7 @@ int32_t ClauseDatabase::polarityClausify(const Formula& f, AuxVarManager& aux_va
 //       }
 //       else
 	result = aux_vars.getVariable();
-      
+
       if ((f == _true_) || (f == _false_))
       {
 	addClause(result); // if f == _false_ ... result will be negated later on
@@ -162,7 +157,7 @@ int32_t ClauseDatabase::polarityClausify(const Formula& f, AuxVarManager& aux_va
 	  assert(f->input_nodes.size() > 2);
 	  if (!isNeg(f))
 	  {
-	    for (int i = 0; i < f->input_nodes.size(); ++i)
+	    for (size_t i = 0; i < f->input_nodes.size(); ++i)
 	    {
 	      addClause(-result, polarityClausify(f->input_nodes[i], aux_vars));
 	    }
@@ -171,7 +166,7 @@ int32_t ClauseDatabase::polarityClausify(const Formula& f, AuxVarManager& aux_va
 	  {
 	    clause.clear();
 	    clause.push_back(result);
-	    for (int i = 0; i < f->input_nodes.size(); ++i)
+	    for (size_t i = 0; i < f->input_nodes.size(); ++i)
 	    {
 	      clause.push_back(polarityClausify(~ (f->input_nodes[i]) , aux_vars));
 	    }
@@ -228,7 +223,7 @@ int32_t ClauseDatabase::polarityClausify(const Formula& f, AuxVarManager& aux_va
         Lit  b = polarityClausify( false_branch(f), aux_vars);
 	addClause(b, -result, 0);
 	addClause(a, -s, -result, 0);
-      } 
+      }
       else
       {
 	cerr << "Error cannot encode Formula: " << endl;
@@ -236,10 +231,10 @@ int32_t ClauseDatabase::polarityClausify(const Formula& f, AuxVarManager& aux_va
 	exit(-1);
 	assert(false);
       }
-      
+
       if (isNeg(f))
 	result = -result;
-      
+
       history[f->data] = result;
     }
 
@@ -249,9 +244,7 @@ int32_t ClauseDatabase::polarityClausify(const Formula& f, AuxVarManager& aux_va
 
 
 CountingClauseDatabase::CountingClauseDatabase(PBConfig config) : ClauseDatabase(config), number_of_clauses(0)
-{
 
-}
 
 void CountingClauseDatabase::addClauseIntern(vector< int32_t > const & clause)
 {
@@ -267,4 +260,3 @@ int64_t CountingClauseDatabase::getNumberOfClauses()
 {
   return number_of_clauses;
 }
-

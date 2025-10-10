@@ -6,7 +6,7 @@
 #define _PBLIB_PB2CNF_HPP_
 
 #include <Python.h>
-#include <pb2cnf.h>
+#include "../../external/pblib/pb2cnf.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -33,4 +33,3 @@ void Build_PyList_Formula(PyObject* py_formula, std::vector<std::vector<int>> &f
 #endif
 
 #endif  // _PBLIB_PB2CNF_HPP_
-

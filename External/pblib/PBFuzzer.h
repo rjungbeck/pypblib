@@ -25,8 +25,8 @@ public:
   int pBOTH = 100;
   int pBIG = 5;
   bool constant_constraint_length = false;
-    
-  int number_of_constraints = 10;
+
+  size_t number_of_constraints = 10;
   int numer_of_variables = 80;
 
   int max_constraint_size = 10;
@@ -37,9 +37,9 @@ public:
   int polarity_ratio = 50;
   int max_trivial_constraints = 1;
     PBFuzzer();
-    
+
     virtual ~PBFuzzer();
-    
+
     // copy constraints! DO NOT USE A REFERENCE HERE
     void writeToPBFile(PBLib::PBConstraint opt_constraint, std::vector< PBLib::PBConstraint > constraints, int numVars, std::string file);
 };

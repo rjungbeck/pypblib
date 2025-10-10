@@ -11,10 +11,6 @@
 #include "../weightedlit.h"
 #include "Encoder.h"
 
-#ifdef _MSC_VER
-#define uint unsigned int
-#endif
-
 // nested amo encoding ... 
 class AMO_Encoder : public Encoder
 {
