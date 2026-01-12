@@ -267,6 +267,7 @@ void PB2CNF::encode(const PBConstraint& pbconstraint, PBSATSolver& satsolver, Au
 	VectorClauseDatabase formula(config);
 	SimplePBConstraint constraint = pre_encoder.preEncodePBConstraint(pbconstraint, formula);
 
+
 	for(auto clause : formula.getClauses())
 		satsolver.addClause(clause);
 
@@ -319,6 +320,38 @@ void PB2CNF::encode(const PBConstraint& pbconstraint, PBSATSolver& satsolver, Au
 
 void PB2CNF::encode(const PBConstraint& pbconstraint, ClauseDatabase& formula, AuxVarManager& auxVars)
 {
+
+  if (pbconstraint.getComparator() == GEQ || pbconstraint.getComparator() == BOTH)
+  {
+      if (pbconstraint.getGeq() > pbconstraint.getMaxSum())
+      {
+          // The constraint is trivially unsatisfiable.
+          // Encode the empty clause (0) and exit early for efficiency.
+          std::vector<int32_t> empty_clause;
+
+          formula.addConditionals(pbconstraint.getConditionals());
+          formula.addClause(empty_clause);
+          for (int i = 0; i < pbconstraint.getConditionals().size(); ++i)
+            formula.getConditionals().pop_back();
+          return; // EXIT EARLY to skip complex encoding and redundant unit clauses.
+      }
+  }
+
+  if (pbconstraint.getComparator() == LEQ || pbconstraint.getComparator() == BOTH)
+  {
+      if (pbconstraint.getLeq() < pbconstraint.getMinSum())
+      {
+          // The constraint is trivially unsatisfiable.
+          // Encode the empty clause (0) and exit early for efficiency.
+          std::vector<int32_t> empty_clause;
+
+          formula.addConditionals(pbconstraint.getConditionals());
+          formula.addClause(empty_clause);
+          for (int i = 0; i < pbconstraint.getConditionals().size(); ++i)
+            formula.getConditionals().pop_back();
+          return; // EXIT EARLY to skip complex encoding and redundant unit clauses.
+      }
+  }
   SimplePBConstraint constraint = pre_encoder.preEncodePBConstraint(pbconstraint, formula);
 
   if (config->just_approximate)
