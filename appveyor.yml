@@ -1,6 +1,6 @@
 
 image:
-  - Visual Studio 2019
+  - Visual Studio 2022
 
 environment:
 
@@ -11,20 +11,16 @@ environment:
     # The list here is complete (excluding Python 2.6, which
     # isn't covered by this document) at the time of writing.
 
-    - PYTHON: "C:\\Python37-x64"
-    - PYTHON: "C:\\Python38-x64"
-    - PYTHON: "C:\\Python39-x64"
     - PYTHON: "C:\\Python310-x64"
     - PYTHON: "C:\\Python311-x64"
     - PYTHON: "C:\\Python312-x64"
     - PYTHON: "C:\\Python313-x64"
-    - PYTHON: "C:\\Python37"
-    - PYTHON: "C:\\Python38"
-    - PYTHON: "C:\\Python39"
+    - PYTHON: "C:\\Python314-x64"
     - PYTHON: "C:\\Python310"
     - PYTHON: "C:\\Python311"
     - PYTHON: "C:\\Python312"
     - PYTHON: "C:\\Python313"
+    - PYTHON: "C:\\Python314"
 
 
 install:
@@ -57,7 +53,7 @@ deploy:
   #on:
   #  branch: master                 # release from master branch only
   APPVEYOR_REPO_TAG: true        # deploy on tag push only
-  
+
 skip_tags: true
 
 #on_success:

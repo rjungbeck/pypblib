@@ -1,25 +1,21 @@
 #ifndef PBPARSER_H
 #define PBPARSER_H
 
-#ifdef _MSC_VER
-#define uint unsigned int
-#endif
-
 /*=============================================================================
  * parser for pseudo-Boolean instances
- * 
+ *
  * Copyright (c) 2005-2007 Olivier ROUSSEL and Vasco MANQUINHO
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -33,6 +29,7 @@
 // version 2.9.4
 
 #include <algorithm>
+#include <cstddef>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -64,7 +61,7 @@ private:
 	std::vector<PBLib::PBConstraint> constraints;
 	std::set<int32_t> units;
 	PBLib::PBConstraint obt_constraint;
-	bool isObtInstance;
+	bool isObtInstance = false;
 
 	PBLib::Comparator comparator;
 	int64_t k;
@@ -73,11 +70,12 @@ private:
 	std::vector<int64_t>  w;
 	int64_t maxSum;
 	std::set<int32_t> varsInPB;
-	
+
 	std::vector< std::vector<int32_t> > realPB;
 	std::vector< PBLib::WeightedLit> tmpVars;
-    
+
 public:
+	DefaultCallback() = default;
 	std::vector< PBLib::PBConstraint > & getConstraints() {return constraints;}
 	std::set<int32_t> & getUnits() { return units;}
 	int64_t getMaxVarId() { return maxVarId; }
@@ -89,7 +87,7 @@ public:
 	 * @param nbvar: the number of variables
 	 * @param nbconstr: the number of contraints
 	 */
-	void metaData(int nbvar, int nbconstr)
+	void metaData(int nbvar, int)
 	{
 		maxVarId = nbvar;
 	}
@@ -99,7 +97,7 @@ public:
 	 */
 	void beginObjective()
 	{
-	  
+
 		isObtInstance = true;
 		k = 0;
 		x.clear();
@@ -112,9 +110,9 @@ public:
 	void endObjective()
 	{
 	  std::vector<PBLib::WeightedLit> vars;
-	  for (int i = 0; i < (int)x.size(); ++i)
+	  for (size_t i = 0; i < (int)x.size(); ++i)
 		  vars.push_back(PBLib::WeightedLit(x[i], w[i]));
-	  
+
 	  obt_constraint = PBLib::PBConstraint(vars, PBLib::LEQ, 0);
 	}
 
@@ -157,8 +155,8 @@ public:
 	    exit(-1);
 	  }
 	}
-	
-	int32_t getNewSymbole() 
+
+	int32_t getNewSymbole()
 	{
 		maxVarId++;
 		return maxVarId;
@@ -182,12 +180,12 @@ public:
 	{
 		assert(x.size() == w.size());
 		assert(x.size() != 0);
-		
+
 		vars.clear();
-		for (int i = 0; i < (int)x.size(); ++i)
+		for (size_t i = 0; i < (int)x.size(); ++i)
 		  vars.push_back(PBLib::WeightedLit(x[i], w[i]));
-		
-		
+
+
 		if (comparator == PBLib::BOTH)
 		  constraints.push_back(PBLib::PBConstraint(vars, comparator, k, k2));
 		else
@@ -199,7 +197,7 @@ public:
 		tmpVars.clear();
 		for (int i = 0; i < (int) lits.size(); ++i)
 			tmpVars.push_back(PBLib::WeightedLit(-lits[i], 1));
-		
+
 		constraints.push_back(PBLib::PBConstraint(tmpVars, PBLib::LEQ, lits.size() - 1));
 	}
 	/**
@@ -225,7 +223,7 @@ public:
 	{
 		int32_t lit = getNewSymbole();
 		linearizeProduct(lit , list);
-		
+
 		constraintTerm(coeff, lit);
 	}
 
@@ -255,7 +253,7 @@ public:
 		k = val;
 		k2 = val;
 	}
-	
+
 	void constraintSecRightTerm(int64_t val)
 	{
 		k2 = val;
@@ -270,7 +268,7 @@ public:
 		std::vector<int> lits;
 
 		lits.push_back(newSymbol);
-		for(uint i=0;i<product.size();++i)
+		for(size_t i=0;i<product.size();++i)
 		{
 			lits.push_back(-product[i]);
 		}
@@ -279,15 +277,13 @@ public:
 		lits.clear();
 		lits.push_back(-newSymbol);
 
-		for(uint i=0;i<product.size();++i)
+		for(size_t i=0;i<product.size();++i)
 		{
 			lits.push_back(product[i]);
 			addClause(lits);
 			lits.pop_back();
 		}
 	}
-	
-	DefaultCallback() : isObtInstance(false) {}
 
 };
 
@@ -356,7 +352,7 @@ public:
 		sort(list.begin(),list.end());
 
 		// is this a known product ?
-		for(uint i=0;i<list.size();++i)
+		for(size_t i=0;i<list.size();++i)
 		{
 			assert(p!=NULL);
 
@@ -403,10 +399,10 @@ private:
 	 * add the constraints which define all product terms
 	 *
 	 */
-	void defineProductVariableRec(Callback &cb, 
+	void defineProductVariableRec(Callback &cb,
 			std::vector<ProductNode> &nodes, std::vector<int> &list)
 	{
-		for(uint i=0;i<nodes.size();++i)
+		for(size_t i=0;i<nodes.size();++i)
 		{
 			list.push_back(nodes[i].lit);
 			if (nodes[i].productId)
@@ -426,7 +422,7 @@ private:
 	 */
 	void freeProductVariableRec(std::vector<ProductNode> &nodes)
 	{
-		for(uint i=0;i<nodes.size();++i)
+		for(size_t i=0;i<nodes.size();++i)
 		{
 			if (nodes[i].next)
 			{
@@ -578,7 +574,7 @@ private:
 			s=">=";
 			return true;
 		}
-		
+
 		if (c=='B')
 		{
 			s="B";
@@ -676,7 +672,7 @@ private:
 	 */
 	void readTerm(int64_t &coeff, std::vector<int> &list)
 	{
-		char c;
+		// char c;
 
 		list.clear();
 
@@ -689,9 +685,9 @@ private:
 		  ok = false;
 		  std::cerr << "error after reading 64bit value. Bigger coefficients cannot be handled yet." << std::endl;
 		}
-		
-		
-		
+
+
+
 		skipSpaces();
 
 		while(readIdentifier(list));
@@ -760,7 +756,7 @@ private:
 	 */
 	void readConstraint()
 	{
-	  
+
 		std::string s;
 		char c;
 
@@ -806,13 +802,13 @@ private:
 
 		in >> coeff;
 		cb.constraintRightTerm(coeff);
-		
+
 		if (s == "B")
 		{
 		  in >> coeff;
 		  cb.constraintSecRightTerm(coeff);
 		}
-		  
+
 
 		skipSpaces();
 		c=get();
@@ -916,13 +912,13 @@ public:
 			readConstraint();
 			nbConstraintsRead++;
 		}
-		
+
 		if (!ok)
 		{
 		  std::cerr << "c error during parsing .. stoped" << std::endl;
 		  return;
 		}
-		
+
 		if (nbConstraintsRead != nbConstr)
 		{
 		  //Small check on the number of constraints
@@ -942,12 +938,11 @@ public:
 class PBParser
 {
 	private:
-		bool hasObjective;
+		bool hasObjective = false;
 		int32_t maxVarID;
 		PBLib::PBConstraint obt_constraint;
 		bool ok = true;
 	public:
-		PBParser() : hasObjective(false) {};
 		std::vector<PBLib::PBConstraint> parseFile(std::string fileName);
 		int32_t getMaxVarID() const { return maxVarID; }
 		PBLib::PBConstraint getObjConstraint() const { assert(hasObjective);  return obt_constraint; }

@@ -27,7 +27,8 @@ public:
     int64_t encodingValue(const SimplePBConstraint& pbconstraint);
 
     Naive_amo_encoder(PBConfig & config);
-    virtual ~Naive_amo_encoder();
+    Naive_amo_encoder() = default;
+    virtual ~Naive_amo_encoder() = default;
 };
 
 #endif // COMMANDER_ENCODING_H

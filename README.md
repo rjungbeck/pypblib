@@ -1,24 +1,3 @@
-Metadata-Version: 2.4
-Name: pypblib
-Version: 0.0.5rc1
-Author: Logic Optimization Group, Carlos Ansótegui, Toni Pacheco, Josep Pon
-License-Expression: MIT
-Project-URL: Homepage, https://arcadia.hardlog.udl.cat/hlog-tools/pypblib
-Keywords: PBLib,Pseudo-Boolean,CNF,PB
-Classifier: Development Status :: 3 - Alpha
-Classifier: Intended Audience :: Developers
-Classifier: Intended Audience :: Science/Research
-Classifier: Natural Language :: English
-Classifier: Programming Language :: Python :: 3
-Classifier: Programming Language :: Python :: 2
-Classifier: Operating System :: OS Independent
-Classifier: Topic :: Scientific/Engineering
-Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
-Requires-Python: >=3.10
-Description-Content-Type: text/markdown
-License-File: LICENSE
-Dynamic: license-file
-
 # PyPBLib
 
 PBLib Python3 Bindings

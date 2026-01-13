@@ -7,7 +7,7 @@
 
 #include <Python.h>
 
-#include <PBParser.h>
+#include "../../external/pblib/PBParser.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -20,7 +20,7 @@ extern PyTypeObject PyPBLibPBParser_Type;
 
 typedef struct {
 	PyObject_HEAD;
-	struct PBParser parser;
+	class PBParser parser;
 } PyPBLibPBParser;
 
 #define PyPBLibPBParser_Check(x)  ((x)->ob_type == &PyPBLibPBParser_Type)

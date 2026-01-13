@@ -6,7 +6,7 @@
 #define _PBLIB_AUXVARMANAGER_HPP_
 
 #include <Python.h>
-#include "auxvarmanager.h"
+#include "../../external/pblib/auxvarmanager.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -27,6 +27,6 @@ typedef struct {
 #ifdef __cplusplus
 }
 
-#endif 
+#endif
 
 #endif // _PBLIB_AUXVARMANAGER_HPP_

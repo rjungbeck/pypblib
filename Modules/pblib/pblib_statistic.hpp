@@ -7,7 +7,7 @@
 
 #include <Python.h>
 
-#include <PBConfig.h>
+#include "../../external/pblib/PBConfig.h"
 
 #ifdef __cplusplus
 extern "C" {

@@ -52,7 +52,7 @@ void BinaryMerge::binary_merge(const SimplePBConstraint& constraint, ClauseDatab
 	{
 	  formula.addConditionals(constraint.getConditionals());
 	  formula.addClause(gac_lit, -constraint.getWeightedLiterals()[j].lit);
-	  for (int i = 0; i < constraint.getConditionals().size(); ++i)
+	  for (size_t i = 0; i < constraint.getConditionals().size(); ++i)
 	    formula.getConditionals().pop_back();
 	}
 	else
@@ -66,7 +66,7 @@ void BinaryMerge::binary_merge(const SimplePBConstraint& constraint, ClauseDatab
   vector<vector<int32_t> > bucket_merge(p+1);
 
   vector<int32_t> carries;
-  for (int i = 0; i < buckets.size(); ++i)
+  for (size_t i = 0; i < buckets.size(); ++i)
   {
     int64_t k = ceil((double)new_less_thean / (double)pow(2,i)); // we need only k output bits to detect inconsistency
 
@@ -83,14 +83,14 @@ void BinaryMerge::binary_merge(const SimplePBConstraint& constraint, ClauseDatab
       {
 	formula.addConditionals(constraint.getConditionals());
 	formula.addClause(gac_lit, -bucket_card[i][k-1]);
-	for (int i = 0; i < constraint.getConditionals().size(); ++i)
+	for (size_t i = 0; i < constraint.getConditionals().size(); ++i)
 	  formula.getConditionals().pop_back();
       }
       else
       {
 	formula.addConditionals(constraint.getConditionals());
 	formula.addClause(-bucket_card[i][k-1]);
-	for (int i = 0; i < constraint.getConditionals().size(); ++i)
+	for (size_t i = 0; i < constraint.getConditionals().size(); ++i)
 	  formula.getConditionals().pop_back();
 
       }
@@ -117,14 +117,14 @@ void BinaryMerge::binary_merge(const SimplePBConstraint& constraint, ClauseDatab
 	    {
 	      formula.addConditionals(constraint.getConditionals());
 	      formula.addClause(gac_lit,-bucket_merge[i][k-1]);
-	      for (int i = 0; i < constraint.getConditionals().size(); ++i)
+	      for (size_t i = 0; i < constraint.getConditionals().size(); ++i)
 		formula.getConditionals().pop_back();
 	    }
 	    else
 	    {
 	      formula.addConditionals(constraint.getConditionals());
 	      formula.addClause(-bucket_merge[i][k-1]);
-	      for (int i = 0; i < constraint.getConditionals().size(); ++i)
+	      for (size_t i = 0; i < constraint.getConditionals().size(); ++i)
 		formula.getConditionals().pop_back();
 	    }
 	  }
@@ -139,12 +139,12 @@ void BinaryMerge::binary_merge(const SimplePBConstraint& constraint, ClauseDatab
     carries.clear();
     if (i == 0)
     {
-      for(int j = 1; j < bucket_card[0].size(); j = j + 2)
+      for(size_t j = 1; j < bucket_card[0].size(); j = j + 2)
 	carries.push_back(bucket_card[0][j]);
     }
     else
     {
-      for(int j = 1; j < bucket_merge[i].size(); j = j + 2)
+      for(size_t j = 1; j < bucket_merge[i].size(); j = j + 2)
 	carries.push_back(bucket_merge[i][j]);
     }
   }
@@ -168,7 +168,7 @@ void BinaryMerge::encode(const SimplePBConstraint& pbconstraint, ClauseDatabase&
     int32_t x;
     bool encode_complete_constrainte = false;
     vector<WeightedLit> lits(pbconstraint.getWeightedLiterals());
-    for (int i = 0; i < lits.size(); ++i)
+    for (size_t i = 0; i < lits.size(); ++i)
     {
       if (config->binary_merge_no_support_for_single_bits && floor(log2(lits[i].weight)) == log2(lits[i].weight))
       {
@@ -185,7 +185,7 @@ void BinaryMerge::encode(const SimplePBConstraint& pbconstraint, ClauseDatabase&
       if (pbconstraint.getMaxWeight() == tmp.weight)
       {
 	int64_t maxWeight = 0;
-	for (int j = 0; j < lits.size(); ++j)
+	for (size_t j = 0; j < lits.size(); ++j)
 	{
 	    maxWeight = max(maxWeight, lits[j].weight);
 	}
@@ -193,11 +193,11 @@ void BinaryMerge::encode(const SimplePBConstraint& pbconstraint, ClauseDatabase&
 	constraint.addConditionals(pbconstraint.getConditionals());
 	if (constraint.getLeq() <= 0)
 	{
-	  for (int j = 0; j < lits.size(); ++j)
+	  for (size_t j = 0; j < lits.size(); ++j)
 	  {
 	    formula.addConditionals(constraint.getConditionals());
 	    formula.addClause(-x, -lits[j].lit);
-	    for (int i = 0; i < constraint.getConditionals().size(); ++i)
+	    for (size_t i = 0; i < constraint.getConditionals().size(); ++i)
 	      formula.getConditionals().pop_back();
 
 	  }
@@ -211,11 +211,11 @@ void BinaryMerge::encode(const SimplePBConstraint& pbconstraint, ClauseDatabase&
 	constraint.addConditionals(pbconstraint.getConditionals());
 	if (constraint.getLeq() <= 0)
 	{
-	  for (int j = 0; j < lits.size(); ++j)
+	  for (size_t j = 0; j < lits.size(); ++j)
 	  {
 	    formula.addConditionals(constraint.getConditionals());
 	    formula.addClause(-x, -lits[j].lit);
-	    for (int i = 0; i < constraint.getConditionals().size(); ++i)
+	    for (size_t i = 0; i < constraint.getConditionals().size(); ++i)
 	      formula.getConditionals().pop_back();
 	  }
 	}
@@ -252,12 +252,12 @@ void BinaryMerge::totalizer(vector< int32_t > const & x, vector< int32_t > & u_x
   }
   else
   {
-    for (int i = 0; i < x.size(); ++i)
+    for (size_t i = 0; i < x.size(); ++i)
       u_x.push_back(auxvars.getVariable());
 
     vector<int32_t> x_1;
     vector<int32_t> x_2;
-    int i = 0;
+    size_t i = 0;
     for (;  i < x.size() / 2; ++i)
       x_1.push_back(x[i]);
     for (;  i < x.size(); ++i)
@@ -278,56 +278,35 @@ void BinaryMerge::unary_adder(vector< int32_t > const & u, vector< int32_t > con
   w.clear();
   if (u.size() == 0)
   {
-    for (int i = 0; i < v.size(); ++i)
+    for (size_t i = 0; i < v.size(); ++i)
       w.push_back(v[i]);
   }
   else if (v.size() == 0)
   {
-    for (int i = 0; i < u.size(); ++i)
+    for (size_t i = 0; i < u.size(); ++i)
       w.push_back(u[i]);
   }
   else
   {
-    for (int i = 0; i < u.size() + v.size(); ++i)
+    for (size_t i = 0; i < u.size() + v.size(); ++i)
       w.push_back(auxvars.getVariable());
 
-    for (int a=0; a < u.size(); ++a)
+    for (size_t a=0; a < u.size(); ++a)
     {
-      for (int b=0; b < v.size(); ++b)
+      for (size_t b=0; b < v.size(); ++b)
       {
 	formula.addClause(-u[a], -v[b], w[a+b+1]);
       }
     }
 
-    for (int i=0; i < v.size(); ++i)
+    for (size_t i=0; i < v.size(); ++i)
     {
       formula.addClause(-v[i], w[i]);
     }
 
-    for (int i=0; i < u.size(); ++i)
+    for (size_t i=0; i < u.size(); ++i)
     {
       formula.addClause(-u[i], w[i]);
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

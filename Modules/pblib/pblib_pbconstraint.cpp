@@ -12,7 +12,7 @@
 // PyPBConstraint Utility methods
 //=====================================================================
 
-inline PyObject* PyPBConstraint_One_Bound_From_Raw_Data(PyTypeObject* type,
+PyObject* PyPBConstraint_One_Bound_From_Raw_Data(PyTypeObject* type,
                                 const std::vector<PBLib::WeightedLit> &wlits,
                                 PBLib::Comparator comp, long bound)
 {
@@ -24,7 +24,7 @@ inline PyObject* PyPBConstraint_One_Bound_From_Raw_Data(PyTypeObject* type,
 	return (PyObject *) self;
 }
 
-inline PyObject* PyPBConstraint_Two_Bound_From_Raw_Data(PyTypeObject* type,
+PyObject* PyPBConstraint_Two_Bound_From_Raw_Data(PyTypeObject* type,
                                 const std::vector<PBLib::WeightedLit> &wlits,
                                 PBLib::Comparator comp, long bound, long bound2)
 {
@@ -60,7 +60,7 @@ static void PyPBConstraint_Dealloc(PyObject* self)
 }
 
 
-static PyObject* PyPBConstraint_New(PyTypeObject *type, PyObject *args, PyObject *kwds)
+static PyObject* PyPBConstraint_New(PyTypeObject *type, PyObject *args, PyObject *)
 {
     bool two_bound = false;
 
@@ -93,7 +93,7 @@ static PyObject* PyPBConstraint_New(PyTypeObject *type, PyObject *args, PyObject
     }
 
     std::vector<PBLib::WeightedLit> wlits;
-    while (item = PyIter_Next(iter)) {
+    while ((item = PyIter_Next(iter))) {
         if (!PyPBWeightedLit_Check(item)) {
             PyErr_SetString(PyExc_TypeError, "First parameter must be a list of WeightedLits.");
             Py_DECREF(item);
