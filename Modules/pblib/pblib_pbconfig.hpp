@@ -6,7 +6,7 @@
 #define _PBLIB_PBCONFIG_HPP_
 
 #include <Python.h>
-#include <PBConfig.h>
+#include "../../External/pblib/PBConfig.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -25,11 +25,11 @@ typedef struct {
 #define PyPBConfig_Check(x)  ((x)->ob_type == &PyPBConfig_Type)
 
 // ***  Prototypes  ***
-char* boolean_value_to_string(int b);
-char* pb_encoder_to_String(int pb_e);
-char* amk_encoder_to_string(int amk_e);
-char* amo_encoder_to_string(int amo_e);
-char* bimander_m_to_string(int bim_m);
+const char* boolean_value_to_string(int b);
+const char* pb_encoder_to_String(int pb_e);
+const char* amk_encoder_to_string(int amk_e);
+const char* amo_encoder_to_string(int amo_e);
+const char* bimander_m_to_string(int bim_m);
 
 #ifdef __cplusplus
 }

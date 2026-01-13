@@ -172,7 +172,7 @@ bool PB2CNF::try_to_encode_in_threshold(SimplePBConstraint& constraint, ClauseDa
 int32_t PB2CNF::encodeAtLeastK(const vector< int32_t >& literals, int64_t k, vector< vector< int32_t > >& formula, int32_t firstAuxiliaryVariable)
 {
   vector<int64_t> weights;
-  for (int i = 0; i < literals.size(); ++i)
+  for (size_t i = 0; i < literals.size(); ++i)
     weights.push_back(1);
 
   return encodeGeq(weights, literals, k, formula, firstAuxiliaryVariable);
@@ -182,7 +182,7 @@ int32_t PB2CNF::encodeAtLeastK(const vector< int32_t >& literals, int64_t k, vec
 int32_t PB2CNF::encodeAtMostK(const vector< int32_t >& literals, int64_t k, vector< vector< int32_t > >& formula, int32_t firstAuxiliaryVariable)
 {
   vector<int64_t> weights;
-  for (int i = 0; i < literals.size(); ++i)
+  for (size_t i = 0; i < literals.size(); ++i)
     weights.push_back(1);
 
   return encodeLeq(weights, literals, k, formula, firstAuxiliaryVariable);
@@ -200,7 +200,7 @@ int32_t PB2CNF::encodeGeq(const vector< int64_t >& weights, const vector< int32_
   }
 
   vector<WeightedLit> lits;
-  for (int i = 0; i < weights.size(); ++i)
+  for (size_t i = 0; i < weights.size(); ++i)
     lits.push_back(WeightedLit(literals[i], weights[i]));
 
   PBLib::PBConstraint constraint(lits, PBLib::GEQ, geq);
@@ -223,7 +223,7 @@ int32_t PB2CNF::encodeBoth(const vector< int64_t >& weights, const vector< int32
   }
 
   vector<WeightedLit> lits;
-  for (int i = 0; i < weights.size(); ++i)
+  for (size_t i = 0; i < weights.size(); ++i)
     lits.push_back(WeightedLit(literals[i], weights[i]));
 
   PBLib::PBConstraint constraint(lits, PBLib::BOTH, leq, geq);
@@ -247,7 +247,7 @@ int32_t PB2CNF::encodeLeq(const vector< int64_t >& weights, const vector< int32_
   }
 
   vector<WeightedLit> lits;
-  for (int i = 0; i < weights.size(); ++i)
+  for (size_t i = 0; i < weights.size(); ++i)
     lits.push_back(WeightedLit(literals[i], weights[i]));
 
   PBLib::PBConstraint constraint(lits, PBLib::LEQ, leq);
@@ -266,7 +266,6 @@ void PB2CNF::encode(const PBConstraint& pbconstraint, PBSATSolver& satsolver, Au
 	// encode with clause clause threshold
 	VectorClauseDatabase formula(config);
 	SimplePBConstraint constraint = pre_encoder.preEncodePBConstraint(pbconstraint, formula);
-
 
 	for(auto clause : formula.getClauses())
 		satsolver.addClause(clause);
@@ -589,7 +588,7 @@ bool PB2CNF::encodeWithBestEncoder(vector< Encoder*> encoders, SimplePBConstrain
   Encoder* bestEncoder = encoders[0];
   int64_t  bestValue= encoders[0]->encodingValue(constraint);
 
-  for (int i = 1; i < encoders.size(); ++i)
+  for (size_t i = 1; i < encoders.size(); ++i)
   {
     int64_t encodingValue = encoders[i]->encodingValue(constraint);
     if (encodingValue < 0)
@@ -619,7 +618,7 @@ bool PB2CNF::encodeWithBestEncoder(std::vector< Encoder* > encoders, shared_ptr<
   Encoder* bestEncoder = encoders[0];
   int64_t  bestValue= encoders[0]->encodingValue(constraint);
 
-  for (int i = 1; i < encoders.size(); ++i)
+  for (size_t i = 1; i < encoders.size(); ++i)
   {
     int64_t encodingValue = encoders[i]->encodingValue(constraint);
     if (encodingValue < 0)
@@ -639,5 +638,3 @@ bool PB2CNF::encodeWithBestEncoder(std::vector< Encoder* > encoders, shared_ptr<
 
   return true;
 }
-
-

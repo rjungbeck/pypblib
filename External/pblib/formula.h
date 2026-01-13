@@ -5,7 +5,7 @@
 
 #include <iostream>
 #include <cstdint>
-#include <memory> 
+#include <memory>
 #include <assert.h>
 #include <algorithm>
 #include <vector>
@@ -49,39 +49,39 @@ inline bool operator > (Formula const & f, Formula const & g);
 
 
 class FormulaClass
-{ 
-  
+{
+
 private:
   static std::map<uint64_t, std::vector<Formula>> formula_cache;
   static std::map<uint64_t, std::vector<Formula>>::iterator it;
-  static int32_t id;  
+  static int32_t id;
   static std::vector<Formula> nodes;
 public:
   static PBConfig config;
-  FormulaClass(int32_t flags, int32_t data, bool isCopyDummy) : flags(flags), data(data)
+  FormulaClass(int32_t flags, int32_t data, bool) : flags(flags), data(data)
   {
     assert( (flags & 2) != 0); // Do NOT use this ctor for compound formulas! You would copy the id!
     assert( flags != 0 || data == 0 || data == 1 || data == 4);
   };
-  
+
   FormulaClass(int32_t flags, int32_t var = 0) : flags(flags)
   {
     init(var);
     assert( flags != 0 || data == 0 || data == 1 || data == 4);
   }
-  
-   FormulaClass(int32_t flags, int32_t data, std::vector<Formula> & input_nodes, bool isCopyDummy) : flags(flags), data(data),  input_nodes(input_nodes)
+
+   FormulaClass(int32_t flags, int32_t data, std::vector<Formula> & input_nodes, bool) : flags(flags), data(data),  input_nodes(input_nodes)
   {
-    assert( (flags & 2) == 0); 
+    assert( (flags & 2) == 0);
     assert( flags != 0 || data == 0 || data == 1 || data == 4);
   };
-  
+
   FormulaClass(int32_t flags, std::vector<Formula> & input_nodes, int32_t var = 0) : flags(flags), input_nodes(input_nodes)
   {
     init(var);
     assert( flags != 0 || data == 0 || data == 1 || data == 4);
   };
-  
+
   void init(int32_t var)
   {
     if (flags == 0)
@@ -105,16 +105,16 @@ public:
 	assert ( var == 0 || var == 1 || var == 2);
 	assert(false);
       }
-      
+
       return;
     }
-    
+
     if ( (flags & 2) != 0 )
     {
       // flag marked as atom
       assert (input_nodes.size() == 0);
       assert (var != 0);
-      
+
       if (var < 0)
       {
 	data = -var << 2;
@@ -140,18 +140,18 @@ public:
   //   1      2     4    8    16      32        64
   // [FAs |isAtom|isAND|FAc |isEquiv|isITE| isMonoITE]
   uint32_t flags;
-  
+
   // [neg|isAtom| data ..]
   //if secound bit = 1 then data = variable_id; else data = formula_id
   uint32_t data;
-  
+
   // vector of inputnodes
   std::vector<Formula> input_nodes;
-  
+
   static Formula newFalse() { return std::make_shared<FormulaClass>(0, 0); }
   static Formula newTrue() { return std::make_shared<FormulaClass>(0, 1); }
   static Formula newUndef() { return std::make_shared<FormulaClass>(0, 2); }
-  
+
   static Formula newNeg(Formula const & f) {
     uint64_t hash;
     if (config->use_formula_cache)
@@ -160,58 +160,58 @@ public:
       it = formula_cache.find(hash);
       if (it != formula_cache.end())
       {
-	for (int i = 0; i < it->second.size(); ++i)
+	for (size_t i = 0; i < it->second.size(); ++i)
 	  if (it->second[i]->data == (f->data ^ 1))
 	    return it->second[i];
       }
     }
-	
+
     Formula result = (isAtom(f)) ? std::make_shared<FormulaClass>(f->flags, f->data ^ 1, true) : std::make_shared<FormulaClass>(f->flags, f->data ^ 1, f->input_nodes, true);
-    
+
     if (config->use_formula_cache)
       formula_cache[hash].push_back(result);
     return result;
   }
-  
+
   static Formula newAND(std::vector<Formula> & conjuncts) {
     assert(false && "multiple AND nodes are currently depracted (since the result in fewer fomrula history hits)"); // multiple AND nodes are currently depracted (since the result in fewer fomrula history hits)
     if (config->use_formula_cache)
       assert(false && "if this is implemented again .. add code here");
-      
+
     std::sort(conjuncts.begin(), conjuncts.end());
     assert(conjuncts.size() > 2);
     uint64_t hash = (((uint64_t)conjuncts[0]->data) << 32) ^ (((uint64_t)conjuncts[1]->data));
-    for (int i = 2; i < conjuncts.size(); ++i) {
+    for (size_t i = 2; i < conjuncts.size(); ++i) {
       hash *= conjuncts[i]->data;
     }
-    
+
     it = formula_cache.find(hash);
     if (it != formula_cache.end())
     {
-      for (int i = 0; i < it->second.size(); ++i)
+      for (size_t i = 0; i < it->second.size(); ++i)
       {
 	if (isAND(it->second[i]) && conjuncts.size() == it->second[i]->input_nodes.size())
 	{
 	  bool equal = true;
-	  for (int j = 0; j < it->second[i]->input_nodes.size(); ++j) {
+	  for (size_t j = 0; j < it->second[i]->input_nodes.size(); ++j) {
 	    if (it->second[i]->input_nodes[j] != conjuncts[j])
 	    {
 	      equal = false;
 	      break;
 	    }
 	  }
-	  
+
 	  if (equal == true)
 	    return it->second[i];
 	}
       }
     }
-    
+
     Formula result = std::make_shared<FormulaClass>(4, conjuncts);
     formula_cache[hash].push_back(result);
-    return result;    
+    return result;
   }
-  
+
   static Formula newAND(Formula const & f, Formula const & g) {
     uint64_t hash;
     if (config->use_formula_cache)
@@ -220,24 +220,24 @@ public:
       it = formula_cache.find(hash);
       if (it != formula_cache.end())
       {
-	for (int i = 0; i < it->second.size(); ++i)
+	for (size_t i = 0; i < it->second.size(); ++i)
 	{
 	  if (isAND(it->second[i]) && it->second[i]->input_nodes[0] == f && it->second[i]->input_nodes[1] == g)
 	    return it->second[i];
 	}
       }
     }
-    
+
     nodes.clear();
     nodes.push_back(f);
     nodes.push_back(g);
-    
+
     Formula result = std::make_shared<FormulaClass>(4, nodes);
     if (config->use_formula_cache)
       formula_cache[hash].push_back(result);
     return result;
   }
-  
+
   static Formula newEquiv(Formula const & f, Formula const & g) {
     uint64_t hash;
     if (config->use_formula_cache)
@@ -246,32 +246,32 @@ public:
       it = formula_cache.find(hash);
       if (it != formula_cache.end())
       {
-	for (int i = 0; i < it->second.size(); ++i)
+	for (size_t i = 0; i < it->second.size(); ++i)
 	{
 	  if (isEquiv(it->second[i]) && it->second[i]->input_nodes[0] == f && it->second[i]->input_nodes[1] == g)
 	    return it->second[i];
 	}
       }
     }
-    
+
     nodes.clear();
     nodes.push_back(f);
     nodes.push_back(g);
-    
+
     Formula result = std::make_shared<FormulaClass>(16, nodes);
-    
+
     if (config->use_formula_cache)
       formula_cache[hash].push_back(result);
     return result;
   }
-  
+
   static Formula newNoNeg(Formula const & f) {
     if (isNeg(f))
       return newNeg(f);
     else
       return f;
   }
-  
+
   static Formula newFAs(Formula const & x, Formula const & y, Formula const & c) {
     uint64_t hash;
     if (config->use_formula_cache)
@@ -283,30 +283,30 @@ public:
       const uint64_t hb = td & fd;
       const uint64_t hc = fd ^ sd;
       hash = ((sd & 3) ^ (td & 3) ^ (fd & 3)) ^ (ha << 2) ^ (hb << 16) ^ (hc << 32);
-      
+
       it = formula_cache.find(hash);
       if (it != formula_cache.end())
       {
-	for (int i = 0; i < it->second.size(); ++i)
+	for (size_t i = 0; i < it->second.size(); ++i)
 	{
 	  if (isFAs(it->second[i]) && it->second[i]->input_nodes[0] == x && it->second[i]->input_nodes[1] == y && it->second[i]->input_nodes[2] == c)
 	    return it->second[i];
 	}
       }
     }
-    
+
     nodes.clear();
     nodes.push_back(x);
     nodes.push_back(y);
     nodes.push_back(c);
-    
+
     Formula result = std::make_shared<FormulaClass>(1, nodes);
 
     if (config->use_formula_cache)
       formula_cache[hash].push_back(result);
     return result;
   }
-  
+
   static Formula newFAc(Formula const & x, Formula const & y, Formula const &c) {
     uint64_t hash;
     if (config->use_formula_cache)
@@ -318,32 +318,32 @@ public:
       const uint64_t hb = td & fd;
       const uint64_t hc = fd ^ sd;
       hash = ((sd & 3) ^ (td & 3) ^ (fd & 3)) ^ (ha << 2) ^ (hb << 16) ^ (hc << 32);
-      
+
       it = formula_cache.find(hash);
       if (it != formula_cache.end())
       {
-	for (int i = 0; i < it->second.size(); ++i)
+	for (size_t i = 0; i < it->second.size(); ++i)
 	{
 	  if (isFAc(it->second[i]) && it->second[i]->input_nodes[0] == x && it->second[i]->input_nodes[1] == y && it->second[i]->input_nodes[2] == c)
 	    return it->second[i];
 	}
       }
     }
-    
+
     nodes.clear();
     nodes.push_back(x);
     nodes.push_back(y);
     nodes.push_back(c);
-    
+
     Formula result = std::make_shared<FormulaClass>(8, nodes);
 
     if (config->use_formula_cache)
       formula_cache[hash].push_back(result);
     return result;
   }
-  
+
   static Formula newITE(Formula const & s, Formula const & t, Formula const & f);
-  
+
   static Formula newMonotonic_ITE(Formula const & s, Formula const & t, Formula const & f) {
     uint64_t hash;
     if (config->use_formula_cache)
@@ -355,37 +355,37 @@ public:
       const uint64_t hb = td & fd;
       const uint64_t hc = fd ^ sd;
       hash = (((sd & 3) ^ (td & 3) ^ (fd & 3)) ^ (ha << 2) ^ (hb << 16) ^ (hc << 32)) + 1;
-      
+
       it = formula_cache.find(hash);
       if (it != formula_cache.end())
       {
-	for (int i = 0; i < it->second.size(); ++i)
+	for (size_t i = 0; i < it->second.size(); ++i)
 	{
 	  if (isMonotonicITE(it->second[i]) && selector(it->second[i]) == s && true_branch(it->second[i]) == t && false_branch(it->second[i]) == f)
 	    return it->second[i];
 	}
       }
     }
-    
+
     nodes.clear();
     nodes.push_back(s);
     nodes.push_back(t);
     nodes.push_back(f);
-    
+
     Formula result = std::make_shared<FormulaClass>(64, nodes);
-    
+
     if (config->use_formula_cache)
       formula_cache[hash].push_back(result);
     return result;
-    
+
   }
-  
+
   static Formula newLit(Lit lit) {
     return std::make_shared<FormulaClass>(2,lit);
   }
-  
+
   ~FormulaClass() {
-    
+
 #if 0
     if (data  == 297) std::cout << "c destroing " << data << " / " << flags << std::endl;
 //     if ( (data & 2) != 0 )
