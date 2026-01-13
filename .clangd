@@ -1,0 +1,16 @@
+CompileFlags:
+  Add:
+    - -Wno-unused-variable
+    - -Wall
+    - -Wextra
+    - -Wpedantic
+    - -Wno-old-style-cast
+    - -IC:/Program Files/Python313/include
+    - -IC:\Users\Saksham\AppData\Local\Python\pythoncore-3.14-64\include
+    - -std=c++20
+
+Diagnostics:
+  UnusedIncludes: None
+  ClangTidy:
+    Remove:
+      - misc-definitions-in-headers

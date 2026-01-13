@@ -6,7 +6,7 @@
 #define _PBLIB_PBCONSTRAINT_HPP_
 
 #include <Python.h>
-#include <pbconstraint.h>
+#include "../../external/pblib/pbconstraint.h"
 
 #ifdef __cplusplus
 extern "C" {

@@ -3,3 +3,5 @@
 /pypblib/*.pyd
 /dist/
 /External/pblib/.vs/
+pypblib/__pycache__/
+pypblib.egg-info/

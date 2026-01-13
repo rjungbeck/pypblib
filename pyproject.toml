@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=80", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pypblib"
+version = "0.0.5-rc1"
+description = ""
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "Logic Optimization Group" },
+    { name = "Carlos Ansótegui" },
+    { name = "Toni Pacheco" },
+    { name = "Josep Pon" },
+]
+keywords = ["PBLib", "Pseudo-Boolean", "CNF", "PB"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 2",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.urls]
+"Homepage" = "https://arcadia.hardlog.udl.cat/hlog-tools/pypblib"
+
+[tool.setuptools]
+packages = ["pypblib"]
+
+# [tool.setuptools]
+# ext-modules = [
+#   { name = "pypblib.pblib",
+#     sources = [
+#       "Modules/pblib/*.cpp",
+#       "External/pblib/*.cpp",
+#       "External/pblib/encoder/*.cpp",
+#     ],
+#     include-dirs = ["External/pblib", "Modules/pblib"],
+#     language = "c++"
+#   }
+# ]

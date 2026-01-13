@@ -50,11 +50,11 @@ void k_Product::encode_intern(vector< Lit >& literals, ClauseDatabase& formula, 
 
     // encode mapping from grid to input literal
     int index;
-    for (int i = 0; i < literals.size(); ++i)
+    for (size_t i = 0; i < literals.size(); ++i)
     {
       Lit x = literals[i];
       int tmp_div = 1;
-      for (int d = 0; d < dimensions.size(); ++d)
+      for (size_t d = 0; d < dimensions.size(); ++d)
       {
 	index = (i / tmp_div) % (dimensions[d].size());
 	tmp_div = tmp_div * dimensions[d].size();
@@ -64,12 +64,12 @@ void k_Product::encode_intern(vector< Lit >& literals, ClauseDatabase& formula, 
     }
 
     // encode at most one constraints for each dimension
-    for (int i = 0; i < dimensions.size(); ++i)
+    for (size_t i = 0; i < dimensions.size(); ++i)
       encode_intern(dimensions[i], formula, auxvars);
 
 }
 
-void k_Product::encode_non_recursive(vector< Lit >& literals, ClauseDatabase& formula, AuxVarManager& auxvars)
+void k_Product::encode_non_recursive(vector< Lit >& literals, ClauseDatabase& formula, AuxVarManager&)
 {
 //   basic_amo_encoder.encode_intern(literals, formula, auxvars);
   naive_amo_encoder.encode_intern(literals, formula);
@@ -129,7 +129,7 @@ void k_Product::encode(const SimplePBConstraint& pbconstraint, ClauseDatabase& f
 
     encode_intern(_literals, formula, auxvars);
 
-    for (int i = 0; i < pbconstraint.getConditionals().size(); ++i)
+    for (size_t i = 0; i < pbconstraint.getConditionals().size(); ++i)
       formula.getConditionals().pop_back();
 }
 
@@ -140,9 +140,3 @@ k_Product::k_Product(PBConfig& config) : Encoder(config), basic_amo_encoder(conf
   k = config->k_product_k;
   assert(k >= 2);
 }
-
-k_Product::~k_Product()
-{
-
-}
-

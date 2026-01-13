@@ -6,7 +6,7 @@
 #define _PBLIB_VECTORCLAUSEDATABASE_HPP_
 
 #include <Python.h>
-#include <VectorClauseDatabase.h>
+#include "../../External/pblib/VectorClauseDatabase.h"
 
 #ifdef __cplusplus
 extern "C" {

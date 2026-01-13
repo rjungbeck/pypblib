@@ -4,9 +4,9 @@ using namespace std;
 
 void Naive_amo_encoder::encode_intern(vector< Lit >& literals, ClauseDatabase& formula)
 {
-  for (int i = 0; i < literals.size(); ++i)
+  for (size_t i = 0; i < literals.size(); ++i)
   {
-    for (int j = i + 1 ; j < literals.size(); ++j)
+    for (size_t j = i + 1 ; j < literals.size(); ++j)
     {
       formula.addClause(-literals[i], -literals[j]);
     }
@@ -20,13 +20,13 @@ int64_t Naive_amo_encoder::encodingValue(const SimplePBConstraint& pbconstraint)
 }
 
 
-void Naive_amo_encoder::encode(const SimplePBConstraint& pbconstraint, ClauseDatabase& formula, AuxVarManager& auxvars)
+void Naive_amo_encoder::encode(const SimplePBConstraint& pbconstraint, ClauseDatabase& formula, AuxVarManager&)
 {
   formula.addConditionals(pbconstraint.getConditionals());
 
   if (config->print_used_encodings)
     cout << "c encode with naive amo encoder" << endl;
-  
+
   assert(pbconstraint.getLeq() == 1);
 
   _literals.clear();
@@ -40,19 +40,14 @@ void Naive_amo_encoder::encode(const SimplePBConstraint& pbconstraint, ClauseDat
     assert(pbconstraint.getGeq() == 1 && pbconstraint.getLeq() == 1);
     formula.addClause(_literals);
   }
-  
+
   encode_intern(_literals, formula);
-  
-  for (int i = 0; i < pbconstraint.getConditionals().size(); ++i)
+
+  for (size_t i = 0; i < pbconstraint.getConditionals().size(); ++i)
     formula.getConditionals().pop_back();
 }
 
 Naive_amo_encoder::Naive_amo_encoder(PBConfig& config) : Encoder(config)
-{
-
-}
-
-Naive_amo_encoder::~Naive_amo_encoder()
 {
 
 }

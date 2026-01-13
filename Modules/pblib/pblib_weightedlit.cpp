@@ -12,7 +12,7 @@
 //PyPBLibWeightedlit Utility methods
 //=====================================================================
 
-inline PyObject* PyWeightedLit_From_Raw_Data(PyTypeObject* type,
+PyObject* PyWeightedLit_From_Raw_Data(PyTypeObject* type,
                                              int literal, long weight)
 {
   PyPBLibWeightedLit* self = (PyPBLibWeightedLit*)type->tp_alloc(type, 1);
@@ -45,7 +45,7 @@ static void PyPBLibWeightedLit_Dealloc(PyObject* self)
 }
 
 
-static PyObject * PyWeightedLit_New(PyTypeObject *type, PyObject *args, PyObject *kwds)
+static PyObject * PyWeightedLit_New(PyTypeObject *type, PyObject *args, PyObject *)
 {
 	int literal;
 	long weight;
@@ -211,4 +211,3 @@ PyTypeObject PyPBLibWeightedLit_Type = {
 #ifdef __cplusplus
 }
 #endif
-

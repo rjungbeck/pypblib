@@ -41,18 +41,17 @@ void VectorClauseDatabase::addClauseIntern(const vector< int32_t >& clause)
 }
 
 
-vector< vector< int32_t > > const & VectorClauseDatabase::getClauses() 
+vector< vector< int32_t > > const & VectorClauseDatabase::getClauses()
 {
   return *clauses;
 }
 
 
 
-void VectorClauseDatabase::printFormula(ostream & output)
+void VectorClauseDatabase::printFormula(ostream &)
 {
-  for (int i = 0; i < clauses->size(); ++i)
+  for (size_t i = 0; i < clauses->size(); ++i)
   {
     cout << (*clauses)[i] << " 0" << endl;
   }
 }
-

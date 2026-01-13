@@ -1,8 +1,5 @@
-# -*- coding: utf-8 -*-
+import importlib.metadata
 
-VERSION_MAJOR = 0
-VERSION_MINOR = 0
-VERSION_MICRO = 4
+VERSION_STR = importlib.metadata.version("pypblib")
 
-VERSION = (VERSION_MAJOR, VERSION_MINOR, VERSION_MICRO)
-VERSION_STR = '.'.join(map(str, VERSION))
+VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH = map(int, VERSION_STR.split('.'))
