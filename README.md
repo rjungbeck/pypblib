@@ -18,11 +18,15 @@ The online documentation can be found here: http://ulog.udl.cat/static/doc/pypbl
 
 The API is documented using Sphinx, to build it: download the source files open a terminal in the Doc directory and type:
 
-$ make html or $ make latexpdf
+````
+make html or $ make latexpdf
+````
 
 ## Installation -o install the python module use the setup.py script located in the root of the project or (preferably) the pip3 package manager.
 
-$ python3 setup.py install or pip3 install .
+````
+python3 setup.py install or pip3 install .
+````
 
 If you don't have admin privileges or just prefere to isntall the pacakge for your user only, add the --user flag to any of the commands above.
 
